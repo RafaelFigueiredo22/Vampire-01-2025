@@ -12,7 +12,11 @@
         canvas.height = 720;
 
         let x = canvas.width / 2;
-        let y = canvas.height / 2
+        let y = canvas.height / 2;
+
+        let frames = 0
+        let colunaFrame = 0;
+        let linhaFrame = 2;
 
         function animation() {
             requestAnimationFrame(animation)
@@ -26,19 +30,28 @@
             const alturaFrame = imagem.height / 8; //8 linha no sprite
             const larguraFrame = imagem.width / 6  //6 colunas no sprite
             ctx.drawImage(
-                imagem,         //imagem para recorte
-                0,              //x inicio corte
-                0,              //y inicio corte
-                larguraFrame,   //largura de corte
-                alturaFrame,    //altura de corte,
-                100,            //x para desenho no canvas
-                100,            //y para desenho no canvas
-                larguraFrame,   //largura do desenho no canvas
-                alturaFrame     //altura do desenho no canvas
-             )
+                imagem,                     //imagem para recorte
+                colunaFrame * larguraFrame, //x inicio corte
+                linhaFrame * alturaFrame,   //y inicio corte
+                larguraFrame,               //largura de corte
+                alturaFrame,                //altura de corte,
+                100,                        //x para desenho no canvas
+                100,                        //y para desenho no canvas
+                larguraFrame,               //largura do desenho no canvas
+                alturaFrame                 //altura do desenho no canvas
+            )
 
             if (y < canvas.height - 50)
                 y += 10;
+
+            if (frames % 10 == 0) {
+                if (colunaFrame > 4)
+                    colunaFrame = 0
+                else
+                    colunaFrame++
+            }
+
+            frames++
         }
 
         addEventListener('keydown', (tecla) => {
