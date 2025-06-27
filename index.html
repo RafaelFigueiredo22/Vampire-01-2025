@@ -1,10 +1,12 @@
 <html>
 
-<body>
+<body style="background-color: black;">
+    <img src="Warrior_Red.png" hidden />
     <canvas></canvas>
     <script>
         const canvas = document.querySelector("canvas")
         const ctx = canvas.getContext("2d")
+        const imagem = document.querySelector('img')
 
         canvas.width = 1024;
         canvas.height = 720;
@@ -15,11 +17,25 @@
         function animation() {
             requestAnimationFrame(animation)
 
-            ctx.fillStyle = "black"
+            ctx.fillStyle = "white"
             ctx.fillRect(0, 0, canvas.width, canvas.height)
 
             ctx.fillStyle = "blue";
             ctx.fillRect(x, y, 50, 50)
+
+            const alturaFrame = imagem.height / 8; //8 linha no sprite
+            const larguraFrame = imagem.width / 6  //6 colunas no sprite
+            ctx.drawImage(
+                imagem,         //imagem para recorte
+                0,              //x inicio corte
+                0,              //y inicio corte
+                larguraFrame,   //largura de corte
+                alturaFrame,    //altura de corte,
+                100,            //x para desenho no canvas
+                100,            //y para desenho no canvas
+                larguraFrame,   //largura do desenho no canvas
+                alturaFrame     //altura do desenho no canvas
+             )
 
             if (y < canvas.height - 50)
                 y += 10;
