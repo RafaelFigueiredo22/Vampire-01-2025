@@ -21,7 +21,8 @@
         }
         const player = {
             x: canvas.width / 2,
-            y: canvas.height / 2
+            y: canvas.height / 2,
+            velocidade: 5
         }
 
         function animation() {
@@ -39,8 +40,8 @@
                 const dx = toque.x - player.x;
                 const dy = toque.y - player.y;
                 const angulo = Math.atan2(dy, dx);
-                player.x += Math.cos(angulo);
-                player.y += Math.sin(angulo);
+                player.x += Math.cos(angulo) * player.velocidade;
+                player.y += Math.sin(angulo) * player.velocidade;
             }
 
             const alturaFrame = imagem.height / 8; //8 linha no sprite
@@ -70,6 +71,32 @@
         addEventListener('touchstart', (evento) => {
             toque.x = evento.targetTouches[0].clientX
             toque.y = evento.targetTouches[0].clientY
+        })
+        addEventListener('touchmove', (evento) => {
+            toque.x = evento.targetTouches[0].clientX
+            toque.y = evento.targetTouches[0].clientY
+        })
+        addEventListener('touchend', (evento) => {
+            toque.x = null
+            toque.y = null
+        })
+
+        let mouseApertado = false
+        addEventListener('mousedown', (evento) => {
+            mouseApertado = true
+            toque.x = evento.clientX
+            toque.y = evento.clientY
+        })
+        addEventListener('mousemove', (evento) => {
+            if (mouseApertado) {
+                toque.x = evento.clientX
+                toque.y = evento.clientY
+            }
+        })
+        addEventListener('mouseup', (evento) => {
+            mouseApertado = false
+            toque.x = null
+            toque.y = null
         })
 
         animation();
