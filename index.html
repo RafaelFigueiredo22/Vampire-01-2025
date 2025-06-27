@@ -11,9 +11,6 @@
         canvas.width = 1024;
         canvas.height = 720;
 
-        let x = canvas.width / 2;
-        let y = canvas.height / 2;
-
         let frames = 0
         let colunaFrame = 0;
         let linhaFrame = 1;
@@ -22,6 +19,10 @@
             x: null,
             y: null
         }
+        const player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2
+        }
 
         function animation() {
             requestAnimationFrame(animation)
@@ -29,10 +30,18 @@
             ctx.fillStyle = "white"
             ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-            ctx.fillStyle = "blue";
-            ctx.beginPath()
-            ctx.arc(toque.x, toque.y, 30, 0, Math.PI * 2)
-            ctx.fill()
+            if (toque.x != null) {
+                ctx.fillStyle = "blue";
+                ctx.beginPath()
+                ctx.arc(toque.x, toque.y, 30, 0, Math.PI * 2)
+                ctx.fill()
+
+                const dx = toque.x - player.x;
+                const dy = toque.y - player.y;
+                const angulo = Math.atan2(dy, dx);
+                player.x += Math.cos(angulo);
+                player.y += Math.sin(angulo);
+            }
 
             const alturaFrame = imagem.height / 8; //8 linha no sprite
             const larguraFrame = imagem.width / 6  //6 colunas no sprite
@@ -42,8 +51,8 @@
                 linhaFrame * alturaFrame,   //y inicio corte
                 larguraFrame,               //largura de corte
                 alturaFrame,                //altura de corte,
-                100,                        //x para desenho no canvas
-                100,                        //y para desenho no canvas
+                player.x,                   //x para desenho no canvas
+                player.y,                   //y para desenho no canvas
                 larguraFrame,               //largura do desenho no canvas
                 alturaFrame                 //altura do desenho no canvas
             )
