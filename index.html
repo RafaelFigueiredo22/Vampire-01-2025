@@ -16,7 +16,12 @@
 
         let frames = 0
         let colunaFrame = 0;
-        let linhaFrame = 2;
+        let linhaFrame = 1;
+
+        const toque = {
+            x: null,
+            y: null
+        }
 
         function animation() {
             requestAnimationFrame(animation)
@@ -25,7 +30,9 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height)
 
             ctx.fillStyle = "blue";
-            ctx.fillRect(x, y, 50, 50)
+            ctx.beginPath()
+            ctx.arc(toque.x, toque.y, 30, 0, Math.PI * 2)
+            ctx.fill()
 
             const alturaFrame = imagem.height / 8; //8 linha no sprite
             const larguraFrame = imagem.width / 6  //6 colunas no sprite
@@ -41,9 +48,6 @@
                 alturaFrame                 //altura do desenho no canvas
             )
 
-            if (y < canvas.height - 50)
-                y += 10;
-
             if (frames % 10 == 0) {
                 if (colunaFrame > 4)
                     colunaFrame = 0
@@ -54,13 +58,9 @@
             frames++
         }
 
-        addEventListener('keydown', (tecla) => {
-            if (tecla.code == "KeyA")
-                x -= 10
-            else if (tecla.code == "KeyD")
-                x += 10
-            else if (tecla.code == "KeyW")
-                y -= 20
+        addEventListener('touchstart', (evento) => {
+            toque.x = evento.targetTouches[0].clientX
+            toque.y = evento.targetTouches[0].clientY
         })
 
         animation();
