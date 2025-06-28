@@ -21,54 +21,27 @@
         }
         const player = {
             x: canvas.width / 2,
+            y: canvas.height / 2
             y: canvas.height / 2,
             velocidade: 5
         }
 
         function animation() {
-            requestAnimationFrame(animation)
 
-            ctx.fillStyle = "white"
-            ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-            if (toque.x != null) {
-                ctx.fillStyle = "blue";
-                ctx.beginPath()
-                ctx.arc(toque.x, toque.y, 30, 0, Math.PI * 2)
-                ctx.fill()
-
+@@ -39,8 +40,8 @@
                 const dx = toque.x - player.x;
                 const dy = toque.y - player.y;
                 const angulo = Math.atan2(dy, dx);
+                player.x += Math.cos(angulo);
+                player.y += Math.sin(angulo);
                 player.x += Math.cos(angulo) * player.velocidade;
                 player.y += Math.sin(angulo) * player.velocidade;
             }
 
             const alturaFrame = imagem.height / 8; //8 linha no sprite
-            const larguraFrame = imagem.width / 6  //6 colunas no sprite
-            ctx.drawImage(
-                imagem,                     //imagem para recorte
-                colunaFrame * larguraFrame, //x inicio corte
-                linhaFrame * alturaFrame,   //y inicio corte
-                larguraFrame,               //largura de corte
-                alturaFrame,                //altura de corte,
-                player.x,                   //x para desenho no canvas
-                player.y,                   //y para desenho no canvas
-                larguraFrame,               //largura do desenho no canvas
-                alturaFrame                 //altura do desenho no canvas
-            )
 
-            if (frames % 10 == 0) {
-                if (colunaFrame > 4)
-                    colunaFrame = 0
-                else
-                    colunaFrame++
-            }
 
-            frames++
-        }
-
-        addEventListener('touchstart', (evento) => {
+@@ -71,10 +72,36 @@
             toque.x = evento.targetTouches[0].clientX
             toque.y = evento.targetTouches[0].clientY
         })
